@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct DMNewsInfo: Decodable{
     let totalResults: Int
     let articles:[Articles]
@@ -28,4 +27,3 @@ struct DMNewsInfo: Decodable{
                 }
     }
 }
-

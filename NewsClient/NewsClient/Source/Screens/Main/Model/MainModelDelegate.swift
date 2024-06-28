@@ -8,5 +8,6 @@
 import Foundation
 
 protocol MainModelDelegate:AnyObject{
-    func dataDidLoad(with data: DMNewsInfo)
+    func dataDidLoad(with data: [CDNewsInfo])
+
 }

@@ -11,15 +11,17 @@ typealias NewsInfoCompletion = ((DMNewsInfo?, Error?)->())
 
 protocol NetworkServiceNews {
     func loadNews(for category: String, completion:@escaping NewsInfoCompletion)
+
 }
 
 extension NetworkService: NetworkServiceNews {
     
     func loadNews(for category: String, completion: @escaping NewsInfoCompletion) {
         let urlString: String
+        
         if category.lowercased() == "all" || category == "" {
-               urlString = "\(APIConstants.newsUrl())?country=ua&apiKey=\(APIConstants.appId)"
-           } else {
+            urlString = "\(APIConstants.newsUrl())?country=ua&apiKey=\(APIConstants.appId)"
+           } else  {
                urlString = "\(APIConstants.newsUrl())?category=\(category)&apiKey=\(APIConstants.appId)"
            }
         print("Requesting URL: \(urlString)")
@@ -28,8 +30,7 @@ extension NetworkService: NetworkServiceNews {
             return
         }
         
-
-        
+    
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         
@@ -44,6 +45,5 @@ extension NetworkService: NetworkServiceNews {
             }
         }
     }
-    
-    
+
 }

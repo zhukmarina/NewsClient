@@ -9,4 +9,5 @@ import Foundation
 
 protocol MainModelProtocol {
     func loadData(forCategory category: String)
+
 }

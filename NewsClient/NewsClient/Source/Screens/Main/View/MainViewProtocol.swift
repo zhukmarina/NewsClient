@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MainViewProtocol{
-    func setupNews(with articles: [DMNewsInfo.Articles])
+protocol MainViewProtocol: AnyObject {
+    func setupNews(with articles: [CDNewsInfo])
 }

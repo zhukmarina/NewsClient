@@ -20,25 +20,53 @@ class MainViewController: UIViewController {
         mainView.delegate = self
         setupInitialState()
         model?.loadData(forCategory: "")
+
     }
 
     private func setupInitialState() {
         let mainModel = MainModel(delegate: self)
         model = mainModel
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            guard let detailVC = segue.destination as? DetailsViewController else {
+                print("Segue setup failed: destination is not DetailsViewController")
+                return
+            }
+            
+            if let article = sender as? CDNewsInfo {
+                detailVC.articles = [article]
+                detailVC.selectedIndex = 0
+            } else if let articleTuple = sender as? (articles: [CDNewsInfo], selectedIndex: Int) {
+                detailVC.articles = articleTuple.articles
+                detailVC.selectedIndex = articleTuple.selectedIndex
+            } else {
+                print("Invalid sender type: expected CDNewsInfo or (articles: [CDNewsInfo], selectedIndex: Int)")
+            }
+        }
+    }
 }
 
 extension MainViewController: MainViewDelegate {
+ 
     func categoryDidChange(to category: String) {
         model?.loadData(forCategory: category)
+        print("Category did change to: \(category)")
+        
     }
+    
+    func didSelectArticle(_ article: CDNewsInfo) {
+            performSegue(withIdentifier: "showDetail", sender: article)
+        }
 }
 
 extension MainViewController: MainModelDelegate {
-    func dataDidLoad(with data: DMNewsInfo) {
-        print("Data loaded with \(data.articles.count) articles") 
-        contentView.setupNews(with: data.articles)
-    }
+    
+    func dataDidLoad(with data: [CDNewsInfo]) {
+            contentView.setupNews(with: data)
+        }
+
 }
 
 

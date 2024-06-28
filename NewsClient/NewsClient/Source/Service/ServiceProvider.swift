@@ -15,9 +15,9 @@ class ServiceProvider {
         return service
     }
     
-//    static func coreDataService() -> CoreDataServiceProtocol {
-//        let service = CoreDataService.shared
-//        
-//        return service
-//    }
+    static func coreDataService() -> CoreDataServiceProtocol {
+        let service = CoreDataService.shared
+        
+        return service
+    }
 }
