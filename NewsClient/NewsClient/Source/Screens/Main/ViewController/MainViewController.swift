@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
         contentView = mainView
         mainView.delegate = self
         setupInitialState()
-        model?.loadData(forCategory: "")
+        model?.loadData(forCategory: "all")
 
     }
 
@@ -35,10 +35,10 @@ class MainViewController: UIViewController {
                 return
             }
             
-            if let article = sender as? CDNewsInfo {
+            if let article = sender as? DMNewsInfo.Articles {
                 detailVC.articles = [article]
                 detailVC.selectedIndex = 0
-            } else if let articleTuple = sender as? (articles: [CDNewsInfo], selectedIndex: Int) {
+            } else if let articleTuple = sender as? (articles: [DMNewsInfo.Articles], selectedIndex: Int) {
                 detailVC.articles = articleTuple.articles
                 detailVC.selectedIndex = articleTuple.selectedIndex
             } else {
@@ -56,14 +56,14 @@ extension MainViewController: MainViewDelegate {
         
     }
     
-    func didSelectArticle(_ article: CDNewsInfo) {
+    func didSelectArticle(_ article: DMNewsInfo.Articles) {
             performSegue(withIdentifier: "showDetail", sender: article)
         }
 }
 
 extension MainViewController: MainModelDelegate {
-    
-    func dataDidLoad(with data: [CDNewsInfo]) {
+ 
+    func dataDidLoad(with data: [DMNewsInfo.Articles]) {
             contentView.setupNews(with: data)
         }
 

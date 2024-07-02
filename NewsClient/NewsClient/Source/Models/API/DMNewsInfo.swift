@@ -20,6 +20,7 @@ struct DMNewsInfo: Decodable{
         let url: String
         let urlToImage: String?
         let publishedAt: String
+  
 
         struct Source: Decodable {
                     let id: String?

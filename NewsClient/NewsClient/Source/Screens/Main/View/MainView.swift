@@ -8,6 +8,7 @@ import UIKit
 
 
 class MainView: UIView, MainViewProtocol{
+
     weak var delegate: MainViewDelegate?
     
     @IBOutlet weak var newsCollectionView: UICollectionView!
@@ -15,7 +16,7 @@ class MainView: UIView, MainViewProtocol{
   
     
     private var categories: [String] = ["All","General", "Business", "Health","Science", "Sports", "Technology"]
-    private var articles: [CDNewsInfo] = []
+    private var articles: [DMNewsInfo.Articles] = []
 
     
     override func awakeFromNib() {
@@ -33,10 +34,10 @@ class MainView: UIView, MainViewProtocol{
 
     }
     
-    func setupNews(with data: [CDNewsInfo]) {
-        self.articles = data
-        newsCollectionView.reloadData()
-    }
+    func setupNews(with data: [DMNewsInfo.Articles]) {
+           self.articles = data
+           newsCollectionView.reloadData()
+       }
     
 }
 
@@ -87,9 +88,10 @@ extension MainView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == categoriesCollectionView {
-            return CGSize(width: 100, height: 50)
+            return CGSize(width: 120, height: 50)
         } else {
-            return CGSize(width: collectionView.bounds.width, height: 200)
+            return CGSize(width: collectionView.bounds.width, height: 150)
         }
+    
     }
 }

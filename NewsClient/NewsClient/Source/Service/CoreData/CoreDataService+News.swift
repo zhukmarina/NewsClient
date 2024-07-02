@@ -1,83 +1,71 @@
 import CoreData
 
 protocol CoreDataNews {
-    func insertNewsInfo(with info: DMNewsInfo)
-    func fetchAllNews() -> [CDNewsInfo]
-    func updateBookmarkStatus(for article: CDNewsInfo, isBookmarked: Bool)
-    func fetchBookmarkedNews() -> [CDNewsInfo]
-    func saveLastUpdateDate()
-    func getLastUpdateDate() -> Date? 
+    func insertBookmark(with info: DMNewsInfo.Articles)
+    func fetchBookmarks() -> [CDNewsInfo]
+    func isArticleBookmarked(_ article: DMNewsInfo.Articles) -> Bool
+ 
 }
 
 extension CoreDataService: CoreDataNews {
-    
-    func insertNewsInfo(with info: DMNewsInfo) {
-        for article in info.articles {
-            let articlesEntityDescription = NSEntityDescription.entity(forEntityName: "CDNewsInfo", in: context)!
-            guard let articlesEntity = NSManagedObject(entity: articlesEntityDescription, insertInto: context) as? CDNewsInfo else {
-                assertionFailure("Failed to create CDNewsInfo")
-                return
-            }
 
-            articlesEntity.title = article.title
-            articlesEntity.author = article.author
-            articlesEntity.datePub = article.publishedAt
-            articlesEntity.bodyInfo = article.description
-            articlesEntity.image = article.urlToImage
-            articlesEntity.isBookmarked = false // default value for new articles
-
-            print("Inserted article: \(article.title)")
-            save(context: context)
-        }
-    }
-
-    func fetchAllNews() -> [CDNewsInfo] {
-        let fetchRequest: NSFetchRequest<CDNewsInfo> = CDNewsInfo.fetchRequest()
-
-        do {
-            let fetchedResult = try context.fetch(fetchRequest)
-            print("Fetched \(fetchedResult.count) articles")
-            return fetchedResult
-        } catch {
-            print("Failed to fetch news info: \(error)")
-            return []
-        }
-    }
-
-    func updateBookmarkStatus(for article: CDNewsInfo, isBookmarked: Bool) {
-        context.performAndWait {
-            article.isBookmarked = isBookmarked
-            print("Updating article: \(article.title ?? "No Title") to isBookmarked: \(isBookmarked)")
-            save(context: context)
-        }
-    }
-
-    func fetchBookmarkedNews() -> [CDNewsInfo] {
-        let fetchRequest: NSFetchRequest<CDNewsInfo> = CDNewsInfo.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "isBookmarked == YES")
-
-        do {
-            let fetchedResult = try context.fetch(fetchRequest)
-            print("Fetched \(fetchedResult.count) bookmarked articles")
-            fetchedResult.forEach { article in
-                print("Bookmarked Article: \(article.title ?? "No Title")")
-            }
-            return fetchedResult
-        } catch {
-            print("Failed to fetch bookmarked news: \(error)")
-            return []
-        }
+    func isArticleBookmarked(_ article: DMNewsInfo.Articles) -> Bool {
+           let fetchRequest: NSFetchRequest<CDNewsInfo> = CDNewsInfo.fetchRequest()
+           fetchRequest.predicate = NSPredicate(format: "title == %@", article.title)
+           
+           do {
+               let count = try context.count(for: fetchRequest)
+               return count > 0
+           } catch {
+               print("Failed to fetch bookmark status: \(error)")
+               return false
+           }
+       
+        
     }
     
-    func saveLastUpdateDate() {
-            let currentDate = Date()
-            UserDefaults.standard.set(currentDate, forKey: "lastUpdateDate")
+    func insertBookmark(with article: DMNewsInfo.Articles) {
+        let cdArticle = CDNewsInfo(context: context)
+        cdArticle.title = article.title
+        cdArticle.author = article.author
+        cdArticle.sourceName = article.source.name
+        cdArticle.datePub = article.publishedAt
+        cdArticle.image = article.urlToImage
+        cdArticle.url = article.url
+        cdArticle.isBookmarked = true
         
-   
-        }
+        save(context: context)
+    }
+    
+    
+    func fetchBookmarks() -> [CDNewsInfo] {
+         let fetchRequest: NSFetchRequest<CDNewsInfo> = CDNewsInfo.fetchRequest()
+         
+         do {
+             let fetchedResult = try context.fetch(fetchRequest)
+             print("Fetched \(fetchedResult.count) articles")
+             return fetchedResult
+         } catch {
+             print("Failed to fetch bookmarks: \(error)")
+             return []
+         }
+     }
+    
+    func deleteBookmark(with article: DMNewsInfo.Articles) {
+           let fetchRequest: NSFetchRequest<CDNewsInfo> = CDNewsInfo.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title == %@", article.title)
+           
+           do {
+               let bookmarks = try context.fetch(fetchRequest)
+               for bookmark in bookmarks {
+                   context.delete(bookmark)
+               }
+               save(context: context)
+           } catch {
+               print("Failed to delete bookmark: \(error)")
+           }
+       }
         
-    func getLastUpdateDate() -> Date? {
-            return UserDefaults.standard.object(forKey: "lastUpdateDate") as? Date
-        
-        }
-}
+    }
+    
+

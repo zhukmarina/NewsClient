@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MainViewProtocol: AnyObject {
-    func setupNews(with articles: [CDNewsInfo])
+    func setupNews(with articles: [DMNewsInfo.Articles])
 }
