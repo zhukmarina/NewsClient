@@ -9,5 +9,5 @@ import Foundation
 
 protocol MainModelProtocol {
     func loadData(forCategory category: String)
-
+    func searchNews(for searchIn: String)
 }

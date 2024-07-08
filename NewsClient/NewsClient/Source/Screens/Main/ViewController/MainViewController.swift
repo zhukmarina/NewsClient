@@ -16,10 +16,13 @@ class MainViewController: UIViewController {
         guard let mainView = view as? MainView else {
             fatalError("MainView is not connected properly in the storyboard")
         }
+        
+        
         contentView = mainView
         mainView.delegate = self
         setupInitialState()
         model?.loadData(forCategory: "all")
+        model?.searchNews(for: "")
 
     }
 
@@ -49,7 +52,8 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainViewDelegate {
- 
+    
+   
     func categoryDidChange(to category: String) {
         model?.loadData(forCategory: category)
         print("Category did change to: \(category)")
@@ -57,7 +61,12 @@ extension MainViewController: MainViewDelegate {
     }
     
     func didSelectArticle(_ article: DMNewsInfo.Articles) {
-            performSegue(withIdentifier: "showDetail", sender: article)
+        
+        performSegue(withIdentifier: "showDetail", sender: article)
+    }
+    
+    func searchNews(for searchIn: String) {
+            model?.searchNews(for: searchIn)
         }
 }
 

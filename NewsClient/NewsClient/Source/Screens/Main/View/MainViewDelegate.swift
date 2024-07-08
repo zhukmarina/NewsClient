@@ -11,4 +11,5 @@ protocol MainViewDelegate:AnyObject {
     func categoryDidChange(to category: String)
     func dataDidLoad(with news: [DMNewsInfo.Articles])
     func didSelectArticle(_ article: DMNewsInfo.Articles)
+    func searchNews(for searchIn: String) 
 }
