@@ -50,7 +50,7 @@ extension CoreDataService: CoreDataNews {
         
         save(context: context)
         DispatchQueue.main.async {
-            completion() // Call the completion handler after insertion
+            completion()
         }
     }
 
@@ -58,7 +58,7 @@ extension CoreDataService: CoreDataNews {
         article.isBookmarked = true
         save(context: context)
         DispatchQueue.main.async {
-            completion() // Call the completion handler after insertion
+            completion() 
         }
     }
     
@@ -87,7 +87,7 @@ extension CoreDataService: CoreDataNews {
                 }
                 self.save(context: self.context)
                 DispatchQueue.main.async {
-                    completion() // Call the completion handler after deletion
+                    completion() 
                 }
             } catch {
                 print("Failed to delete bookmark: \(error)")
@@ -107,7 +107,7 @@ extension CoreDataService: CoreDataNews {
                 }
                 self.save(context: self.context)
                 DispatchQueue.main.async {
-                    completion() // Call the completion handler after deletion
+                    completion()
                 }
             } catch {
                 print("Failed to delete bookmark: \(error)")

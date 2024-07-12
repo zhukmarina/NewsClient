@@ -1,15 +1,9 @@
-//  MainViewController.swift
-//  NewsClient
-//
-//  Created by Marina Zhukova on 07.06.2024.
-//
-
 import UIKit
 
 class MainViewController: UIViewController {
-    
     var model: MainModelProtocol?
     var contentView: MainViewProtocol!
+    var coreDataService = CoreDataService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,13 +11,12 @@ class MainViewController: UIViewController {
             fatalError("MainView is not connected properly in the storyboard")
         }
         
-        
         contentView = mainView
         mainView.delegate = self
+        mainView.coreDataService = coreDataService
         setupInitialState()
         model?.loadData(forCategory: "all")
         model?.searchNews(for: "")
-
     }
 
     private func setupInitialState() {
@@ -45,37 +38,33 @@ class MainViewController: UIViewController {
                 detailVC.articles = articleTuple.articles
                 detailVC.selectedIndex = articleTuple.selectedIndex
             } else {
-                print("Invalid sender type: expected CDNewsInfo or (articles: [CDNewsInfo], selectedIndex: Int)")
+                print("Invalid sender type: expected DMNewsInfo.Articles or (articles: [DMNewsInfo.Articles], selectedIndex: Int)")
             }
         }
     }
 }
 
 extension MainViewController: MainViewDelegate {
-    
-   
     func categoryDidChange(to category: String) {
         model?.loadData(forCategory: category)
         print("Category did change to: \(category)")
-        
     }
     
     func didSelectArticle(_ article: DMNewsInfo.Articles) {
-        
         performSegue(withIdentifier: "showDetail", sender: article)
     }
     
     func searchNews(for searchIn: String) {
-            model?.searchNews(for: searchIn)
-        }
+        model?.searchNews(for: searchIn)
+    }
+    
+    func refreshNews() {
+        model?.loadData(forCategory: "all")
+    }
 }
 
 extension MainViewController: MainModelDelegate {
- 
     func dataDidLoad(with data: [DMNewsInfo.Articles]) {
-            contentView.setupNews(with: data)
-        }
-
+        contentView.setupNews(with: data)
+    }
 }
-
-

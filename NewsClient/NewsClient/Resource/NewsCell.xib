@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="363" height="288"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r58-hl-It5">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r58-hl-It5">
                         <rect key="frame" x="0.0" y="0.0" width="363" height="166"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="363" id="72Z-mo-rh8"/>
@@ -42,6 +42,9 @@
                         <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system">
                             <color key="baseForegroundColor" systemColor="systemRedColor"/>
                         </buttonConfiguration>
+                        <connections>
+                            <action selector="addToBookmarkAction:" destination="gn5-8D-UkY" eventType="touchUpInside" id="9rN-kF-Ui2"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNe-2l-MN5">
                         <rect key="frame" x="306" y="246" width="50" height="35"/>
@@ -79,10 +82,10 @@
             </collectionViewCellContentView>
             <size key="customSize" width="363" height="288"/>
             <connections>
-                <outlet property="addToBookmarkButton" destination="9Vy-W6-lkc" id="eI2-RW-I5L"/>
+                <outlet property="addToBookmarkButton" destination="9Vy-W6-lkc" id="9mE-Fc-4SN"/>
                 <outlet property="dateLabel" destination="JvW-86-dX6" id="JJi-CA-4j8"/>
                 <outlet property="imageView" destination="r58-hl-It5" id="Ycz-rg-PfB"/>
-                <outlet property="redirectToSafarilLabel" destination="HNe-2l-MN5" id="9Zs-OM-bAA"/>
+                <outlet property="redirectToSafarilLabel" destination="HNe-2l-MN5" id="3Lt-fP-zBx"/>
                 <outlet property="sourceLabel" destination="ipN-gb-o0C" id="igq-s0-g0f"/>
                 <outlet property="titleLabel" destination="voX-7q-UdD" id="DPd-27-ufP"/>
             </connections>

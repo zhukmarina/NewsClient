@@ -20,7 +20,7 @@ extension NetworkService: NetworkServiceNews {
         let urlString: String
         
         if category.lowercased() == "all" || category == "" {
-            urlString = "\(APIConstants.getNewsUrl())?country=ua&apiKey=\(APIConstants.appId)"
+            urlString = "\(APIConstants.getNewsUrl())?country=us&apiKey=\(APIConstants.appId)"
         } else  {
             urlString = "\(APIConstants.getNewsUrl())?category=\(category)&apiKey=\(APIConstants.appId)"
         }
