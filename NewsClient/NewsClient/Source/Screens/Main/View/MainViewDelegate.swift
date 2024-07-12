@@ -12,5 +12,5 @@ protocol MainViewDelegate:AnyObject {
     func dataDidLoad(with news: [DMNewsInfo.Articles])
     func didSelectArticle(_ article: DMNewsInfo.Articles)
     func searchNews(for searchIn: String) 
-    func refreshNews()
+
 }

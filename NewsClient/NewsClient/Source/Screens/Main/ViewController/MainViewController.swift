@@ -58,9 +58,7 @@ extension MainViewController: MainViewDelegate {
         model?.searchNews(for: searchIn)
     }
     
-    func refreshNews() {
-        model?.loadData(forCategory: "all")
-    }
+    
 }
 
 extension MainViewController: MainModelDelegate {
